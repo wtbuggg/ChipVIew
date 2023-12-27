@@ -40,7 +40,6 @@ final class ConcernsSelectorView: UIView {
     }
     
     override func layoutSubviews() {
-        print(">> layoutSubviews")
         layoutChipViews()
     }
     
