@@ -40,6 +40,7 @@ final class ConcernsSelectorView: UIView {
     }
     
     override func layoutSubviews() {
+        print(">> layoutSubviews")
         layoutChipViews()
     }
     
@@ -77,7 +78,7 @@ final class ConcernsSelectorView: UIView {
             lastItemView = itemView
         }
         viewHeight = y + lastItemView!.frame.size.height + 10
-        print(">> viewHeight: \(viewHeight)")
+        invalidateIntrinsicContentSize()
     }
     
     private func makeLabel(
