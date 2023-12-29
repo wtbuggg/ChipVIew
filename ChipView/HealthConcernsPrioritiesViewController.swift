@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class HealthConcernsPrioritiesViewController: UITableViewController {
     
     private let cellId = String(describing: PriorityItemViewCell.self)
     private let healthConcernModel: HealthConcernModel
+    private var cancellable: AnyCancellable?
     
     init(model: HealthConcernModel) {
         self.healthConcernModel = model
@@ -28,12 +30,9 @@ class HealthConcernsPrioritiesViewController: UITableViewController {
         tableView.showsVerticalScrollIndicator = false
         tableView.isEditing = true
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(syncViewWithModel),
-            name: .concernsUpdated,
-            object: nil
-        )
+        cancellable = healthConcernModel.selectedConcerns.sink { [weak self] _ in
+            self?.syncViewWithModel()
+        }
     }
     
     @objc func syncViewWithModel() {
@@ -47,7 +46,7 @@ class HealthConcernsPrioritiesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return healthConcernModel.selectedConcerns.count
+        return healthConcernModel.selectedConcerns.value.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -58,7 +57,7 @@ class HealthConcernsPrioritiesViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? PriorityItemViewCell else {
             fatalError("Failed to dequeue PriorityItemViewCell")
         }
-        cell.titleLabel.text = healthConcernModel.selectedConcerns[indexPath.row]
+        cell.titleLabel.text = healthConcernModel.selectedConcerns.value[indexPath.row]
 
         return cell
     }
@@ -72,7 +71,7 @@ class HealthConcernsPrioritiesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-        let concern = healthConcernModel.selectedConcerns[fromIndexPath.row]
+        let concern = healthConcernModel.selectedConcerns.value[fromIndexPath.row]
         healthConcernModel.move(concern, to: to.row)
     }
     

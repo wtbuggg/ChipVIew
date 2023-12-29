@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class HealthConcernsSelectorVC: UIViewController {
     
     private let healthConcernModel: HealthConcernModel
+    
+    private var cancellable: AnyCancellable?
     
     init(model: HealthConcernModel) {
         self.healthConcernModel = model
@@ -32,12 +35,10 @@ class HealthConcernsSelectorVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(syncViewWithModel),
-            name: .concernsSelected,
-            object: nil
-        )
+        
+        cancellable = healthConcernModel.selectedConcerns.sink { [weak self] _ in
+            self?.syncViewWithModel()
+        }
     }
     
     @objc func syncViewWithModel() {
