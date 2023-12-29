@@ -10,15 +10,27 @@ import UIKit
 class HealthConcernsPrioritiesViewController: UITableViewController {
     
     private let cellId = String(describing: PriorityItemViewCell.self)
+    private let healthConcernModel: HealthConcernModel
     
-    var healthConcerns = ["Sleep", "Immunity", "Stress", "Joint Support", "Digestion"]
-        
+    init(model: HealthConcernModel) {
+        self.healthConcernModel = model
+        super.init(nibName: "HealthConcernsPrioritiesViewController", bundle: .main)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(UINib(nibName: cellId, bundle: nil), forCellReuseIdentifier: cellId)
         tableView.showsVerticalScrollIndicator = false
         tableView.isEditing = true
+        
+        healthConcernModel.modelUpdated = { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 
     // MARK: - Table view data source
@@ -28,7 +40,7 @@ class HealthConcernsPrioritiesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return healthConcerns.count
+        return healthConcernModel.selectedConcerns.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -39,7 +51,7 @@ class HealthConcernsPrioritiesViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? PriorityItemViewCell else {
             fatalError("Failed to dequeue PriorityItemViewCell")
         }
-        cell.titleLabel.text = healthConcerns[indexPath.row]
+        cell.titleLabel.text = healthConcernModel.selectedConcerns[indexPath.row]
 
         return cell
     }
@@ -53,9 +65,8 @@ class HealthConcernsPrioritiesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-        let movedItem = healthConcerns[fromIndexPath.row]
-        healthConcerns.remove(at: fromIndexPath.row)
-        healthConcerns.insert(movedItem, at: to.row)
+        let concern = healthConcernModel.selectedConcerns[fromIndexPath.row]
+        healthConcernModel.move(concern, to: to.row)
     }
     
 }

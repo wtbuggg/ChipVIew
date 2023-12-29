@@ -20,12 +20,15 @@ class HealthConcernModel {
         }
     }
     
+    var modelUpdated: (() -> Void)?
+    
     func select(_ concern: String) {
         if let selectedIndex = selectedConcerns.firstIndex(of: concern) {
             selectedConcerns.remove(at: selectedIndex)
         } else if selectedConcerns.count < kMaxConcern {
             selectedConcerns.append(concern)
         }
+        modelUpdated?()
     }
     
     func move(_ concern: String, to destination: Int) {
@@ -34,5 +37,7 @@ class HealthConcernModel {
         }
         selectedConcerns.remove(at: currentIndex)
         selectedConcerns.insert(concern, at: destination)
+        modelUpdated?()
+        print(">> selectedConcerns: \(selectedConcerns)")
     }
 }

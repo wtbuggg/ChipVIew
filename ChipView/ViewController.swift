@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     let healthConcernModel = HealthConcernModel()
     
     private lazy var healthConcernsSelectorVC = HealthConcernsSelectorVC(model: healthConcernModel)
-    private lazy var prioritiesVC = HealthConcernsPrioritiesViewController()
+    private lazy var prioritiesVC = HealthConcernsPrioritiesViewController(model: healthConcernModel)
     
     override func viewDidLoad() {
         super.viewDidLoad()
