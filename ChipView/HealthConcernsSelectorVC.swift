@@ -10,7 +10,7 @@ import UIKit
 class HealthConcernsSelectorVC: UIViewController {
     
     let concernsSelectorView = ConcernsSelectorView()
-    var healthConcerns = [String]() {
+    var healthConcerns = [(String, Bool)]() {
         didSet {
             concernsSelectorView.healthConcerns = healthConcerns
         }
@@ -18,17 +18,23 @@ class HealthConcernsSelectorVC: UIViewController {
     
     override func loadView() {
         view = concernsSelectorView
+        concernsSelectorView.didSelectConcernAt = { [weak self] index in
+            guard let self else { return }
+            let concern = self.healthConcerns[index]
+            self.healthConcerns[index] = (concern.0, !concern.1)
+        }
     }
     
 }
 
 final class ConcernsSelectorView: UIView {
     var chipViews = [UILabel]()
-    var healthConcerns = [String]() {
+    var healthConcerns = [(String, Bool)]() {
         didSet {
             addChipViews()
         }
     }
+    var didSelectConcernAt: ((Int) -> Void)?
     var viewHeight: CGFloat = 0
     
     override init(frame: CGRect) {
@@ -51,10 +57,11 @@ final class ConcernsSelectorView: UIView {
         chipViews.forEach { $0.removeFromSuperview() }
         chipViews.removeAll()
         
-        for (index, concern) in healthConcerns.enumerated() {
+        for concern in healthConcerns {
+            let (title, selected) = concern
             let chipItemView = makeLabel(
-                withTitle: concern,
-                selected: index % 2 == 0
+                withTitle: title,
+                selected: selected
             )
             addSubview(chipItemView)
             chipViews.append(chipItemView)
@@ -100,8 +107,18 @@ final class ConcernsSelectorView: UIView {
         label.layer.borderColor = UIColor.systemGreen.cgColor
         label.layer.borderWidth = 1.0
         label.layer.cornerRadius = labelSize.height / 2
-        
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapChip)))
         return label
+    }
+    
+    @objc func didTapChip(_ sender: UITapGestureRecognizer) {
+        guard let label = sender.view as? UILabel,
+        let tappedIndex = chipViews.firstIndex(of: label) else {
+            fatalError("View should be UILabel")
+        }
+        
+        didSelectConcernAt?(tappedIndex)
     }
 
 }

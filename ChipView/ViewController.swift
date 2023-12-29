@@ -28,7 +28,7 @@ class ViewController: UIViewController {
             healthConcernsSelectorVC.view.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor),
         ])
         
-        healthConcernsSelectorVC.healthConcerns = healthConcerns
+        healthConcernsSelectorVC.healthConcerns = healthConcerns.map { ($0, false) }
         
         addChild(prioritiesVC)
         prioritiesVC.didMove(toParent: self)
