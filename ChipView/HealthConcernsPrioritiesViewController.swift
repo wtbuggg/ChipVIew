@@ -28,9 +28,16 @@ class HealthConcernsPrioritiesViewController: UITableViewController {
         tableView.showsVerticalScrollIndicator = false
         tableView.isEditing = true
         
-        healthConcernModel.modelUpdated = { [weak self] in
-            self?.tableView.reloadData()
-        }
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(syncViewWithModel),
+            name: .concernsUpdated,
+            object: nil
+        )
+    }
+    
+    @objc func syncViewWithModel() {
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source

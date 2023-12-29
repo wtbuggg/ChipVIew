@@ -26,14 +26,21 @@ class HealthConcernsSelectorVC: UIViewController {
         view = concernsSelectorView
         syncViewWithModel()
         concernsSelectorView.didSelectConcern =  { [weak self] concern in
-            guard let self else { return }
-            
-            self.healthConcernModel.select(concern)
-            self.syncViewWithModel()
+            self?.healthConcernModel.select(concern)
         }
     }
     
-    func syncViewWithModel() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(syncViewWithModel),
+            name: .concernsSelected,
+            object: nil
+        )
+    }
+    
+    @objc func syncViewWithModel() {
         concernsSelectorView.healthConcerns = healthConcernModel.concerns
     }
     

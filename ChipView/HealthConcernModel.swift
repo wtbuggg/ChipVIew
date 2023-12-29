@@ -12,6 +12,7 @@ class HealthConcernModel {
     
     private(set) var selectedConcerns = [String]()
     private let kMaxConcern = 5
+    private let nc = NotificationCenter.default
     
     var concerns: [(String, Bool)] {
         _concerns.map { concern in
@@ -20,15 +21,14 @@ class HealthConcernModel {
         }
     }
     
-    var modelUpdated: (() -> Void)?
-    
     func select(_ concern: String) {
         if let selectedIndex = selectedConcerns.firstIndex(of: concern) {
             selectedConcerns.remove(at: selectedIndex)
         } else if selectedConcerns.count < kMaxConcern {
             selectedConcerns.append(concern)
         }
-        modelUpdated?()
+        nc.post(name: .concernsSelected, object: nil)
+        nc.post(name: .concernsUpdated, object: nil)
     }
     
     func move(_ concern: String, to destination: Int) {
@@ -37,7 +37,11 @@ class HealthConcernModel {
         }
         selectedConcerns.remove(at: currentIndex)
         selectedConcerns.insert(concern, at: destination)
-        modelUpdated?()
-        print(">> selectedConcerns: \(selectedConcerns)")
+        nc.post(name: .concernsUpdated, object: nil)
     }
+}
+
+extension Notification.Name {
+    static let concernsUpdated = Notification.Name("concerns updated")
+    static let concernsSelected = Notification.Name("concerns selected")
 }
