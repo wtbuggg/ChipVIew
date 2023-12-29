@@ -24,13 +24,17 @@ class HealthConcernsSelectorVC: UIViewController {
     
     override func loadView() {
         view = concernsSelectorView
-        concernsSelectorView.healthConcerns = healthConcernModel.concerns
+        syncViewWithModel()
         concernsSelectorView.didSelectConcern =  { [weak self] concern in
             guard let self else { return }
             
             self.healthConcernModel.select(concern)
-            self.concernsSelectorView.healthConcerns = self.healthConcernModel.concerns
+            self.syncViewWithModel()
         }
+    }
+    
+    func syncViewWithModel() {
+        concernsSelectorView.healthConcerns = healthConcernModel.concerns
     }
     
 }
