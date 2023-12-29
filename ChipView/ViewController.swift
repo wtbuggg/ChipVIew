@@ -9,8 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let healthConcerns = ["Sleep", "Immunity", "Stress", "Joint Support", "Digestion", "Mood", "Energy", "Hair, Skin, Nails", "Weight Loss", "Fitness", "Stress", "Special Medical Condition"]
-    private lazy var healthConcernsSelectorVC = HealthConcernsSelectorVC()
+    let healthConcernModel = HealthConcernModel()
+    
+    private lazy var healthConcernsSelectorVC = HealthConcernsSelectorVC(model: healthConcernModel)
     private lazy var prioritiesVC = HealthConcernsPrioritiesViewController()
     
     override func viewDidLoad() {
@@ -27,8 +28,6 @@ class ViewController: UIViewController {
             healthConcernsSelectorVC.view.topAnchor.constraint(equalTo: safeGuide.topAnchor),
             healthConcernsSelectorVC.view.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor),
         ])
-        
-        healthConcernsSelectorVC.healthConcerns = healthConcerns.map { ($0, false) }
         
         addChild(prioritiesVC)
         prioritiesVC.didMove(toParent: self)

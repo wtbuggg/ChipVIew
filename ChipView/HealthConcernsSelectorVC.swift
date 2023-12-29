@@ -9,19 +9,27 @@ import UIKit
 
 class HealthConcernsSelectorVC: UIViewController {
     
-    let concernsSelectorView = ConcernsSelectorView()
-    var healthConcerns = [(String, Bool)]() {
-        didSet {
-            concernsSelectorView.healthConcerns = healthConcerns
-        }
+    private let healthConcernModel: HealthConcernModel
+    
+    init(model: HealthConcernModel) {
+        self.healthConcernModel = model
+        super.init(nibName: nil, bundle: nil)
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    let concernsSelectorView = ConcernsSelectorView()
     
     override func loadView() {
         view = concernsSelectorView
-        concernsSelectorView.didSelectConcernAt = { [weak self] index in
+        concernsSelectorView.healthConcerns = healthConcernModel.concerns
+        concernsSelectorView.didSelectConcern =  { [weak self] concern in
             guard let self else { return }
-            let concern = self.healthConcerns[index]
-            self.healthConcerns[index] = (concern.0, !concern.1)
+            
+            self.healthConcernModel.select(concern)
+            self.concernsSelectorView.healthConcerns = self.healthConcernModel.concerns
         }
     }
     
@@ -34,7 +42,7 @@ final class ConcernsSelectorView: UIView {
             addChipViews()
         }
     }
-    var didSelectConcernAt: ((Int) -> Void)?
+    var didSelectConcern: ((String) -> Void)?
     var viewHeight: CGFloat = 0
     
     override init(frame: CGRect) {
@@ -118,7 +126,8 @@ final class ConcernsSelectorView: UIView {
             fatalError("View should be UILabel")
         }
         
-        didSelectConcernAt?(tappedIndex)
+        let (concern, _) = healthConcerns[tappedIndex]
+        didSelectConcern?(concern)
     }
 
 }

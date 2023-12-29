@@ -12,6 +12,7 @@
 		E45FFFF22B3C6122003518D8 /* HealthConcernsPrioritiesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E45FFFF02B3C6122003518D8 /* HealthConcernsPrioritiesViewController.xib */; };
 		E45FFFF52B3C6298003518D8 /* PriorityItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45FFFF32B3C6298003518D8 /* PriorityItemViewCell.swift */; };
 		E45FFFF62B3C6298003518D8 /* PriorityItemViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E45FFFF42B3C6298003518D8 /* PriorityItemViewCell.xib */; };
+		E47FF2452B3E93F600FD5E37 /* HealthConcernModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47FF2442B3E93F600FD5E37 /* HealthConcernModel.swift */; };
 		E48983882B35EA7600697E03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48983872B35EA7600697E03 /* AppDelegate.swift */; };
 		E489838A2B35EA7600697E03 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48983892B35EA7600697E03 /* SceneDelegate.swift */; };
 		E489838C2B35EA7600697E03 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E489838B2B35EA7600697E03 /* ViewController.swift */; };
@@ -26,6 +27,7 @@
 		E45FFFF02B3C6122003518D8 /* HealthConcernsPrioritiesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HealthConcernsPrioritiesViewController.xib; sourceTree = "<group>"; };
 		E45FFFF32B3C6298003518D8 /* PriorityItemViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityItemViewCell.swift; sourceTree = "<group>"; };
 		E45FFFF42B3C6298003518D8 /* PriorityItemViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PriorityItemViewCell.xib; sourceTree = "<group>"; };
+		E47FF2442B3E93F600FD5E37 /* HealthConcernModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthConcernModel.swift; sourceTree = "<group>"; };
 		E48983842B35EA7600697E03 /* ChipView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChipView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E48983872B35EA7600697E03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E48983892B35EA7600697E03 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				E45FFFF02B3C6122003518D8 /* HealthConcernsPrioritiesViewController.xib */,
 				E45FFFF32B3C6298003518D8 /* PriorityItemViewCell.swift */,
 				E45FFFF42B3C6298003518D8 /* PriorityItemViewCell.xib */,
+				E47FF2442B3E93F600FD5E37 /* HealthConcernModel.swift */,
 			);
 			path = ChipView;
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 				E489838A2B35EA7600697E03 /* SceneDelegate.swift in Sources */,
 				E45FFFF12B3C6122003518D8 /* HealthConcernsPrioritiesViewController.swift in Sources */,
 				E45FFFF52B3C6298003518D8 /* PriorityItemViewCell.swift in Sources */,
+				E47FF2452B3E93F600FD5E37 /* HealthConcernModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
